@@ -88,9 +88,14 @@ print(H(y))
 $$
 T(y)=
 \begin{cases}
-2\Phi(y)-1, & 0<y\le1 \\
-\min\{F_T(y),\,2\Phi(y)-1\}, & 1<y<\sqrt{3} \\
-F_T(y), & y>\sqrt{3}
+2\Phi(y)-1,
+& 0<y\le1
+\\
+\min\{F_T(y),\,2\Phi(y)-1\},
+& 1<y<\sqrt{3}
+\\
+F_T(y),
+& y>\sqrt{3}
 \end{cases}
 $$
 
