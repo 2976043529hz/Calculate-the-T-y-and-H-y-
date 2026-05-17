@@ -87,16 +87,15 @@ print(H(y))
 
 $$
 T(y)=
-\begin{cases}
-2\Phi(y)-1,
-& 0<y\le1
+\begin{array}{ll}
+2\Phi(y)-1, & 0<y\le1 \\
 \\
 \min\{F_T(y),\,2\Phi(y)-1\},
-& 1<y<\sqrt{3}
+& 1<y<\sqrt{3} \\
 \\
 F_T(y),
 & y>\sqrt{3}
-\end{cases}
+\end{array}
 $$
 
 where
@@ -117,21 +116,21 @@ $$
 
 $$
 H(y)=
-\begin{cases}
+\begin{array}{ll}
 \min_{v=3,4}
 \{
 2-2F_v(
 y\sqrt{\frac{v}{v-2}}
 )
 \},
-& 0<y\le1
+& 0<y\le1 \\
 \\
 F_H(y),
-& 1<y<\sqrt{3}
+& 1<y<\sqrt{3} \\
 \\
 \min\{F_H(y),\,2-2\Phi(y)\},
 & y>\sqrt{3}
-\end{cases}
+\end{array}
 $$
 
 where
