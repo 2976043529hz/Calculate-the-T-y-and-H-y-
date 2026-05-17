@@ -81,69 +81,7 @@ print(H(y))
 
 ---
 
-# Mathematical Definitions
 
-## Definition of $T(y)$
-
-$$
-T(y)=
-\begin{array}{ll}
-2\Phi(y)-1, & 0<y\le1 \\
-\\
-\min\{F_T(y),\,2\Phi(y)-1\},
-& 1<y<\sqrt{3} \\
-\\
-F_T(y),
-& y>\sqrt{3}
-\end{array}
-$$
-
-where
-
-$$
-F_T(y)=
-\min_{3\le v\le \lfloor v_0(y)\rfloor+3}
-\{
-2F_v(
-y\sqrt{\frac{v}{v-2}}
-)-1
-\}
-$$
-
----
-
-## Definition of $H(y)$
-
-$$
-H(y)=
-\begin{array}{ll}
-\min_{v=3,4}
-\{
-2-2F_v(
-y\sqrt{\frac{v}{v-2}}
-)
-\},
-& 0<y\le1 \\
-\\
-F_H(y),
-& 1<y<\sqrt{3} \\
-\\
-\min\{F_H(y),\,2-2\Phi(y)\},
-& y>\sqrt{3}
-\end{array}
-$$
-
-where
-
-$$
-F_H(y)=
-\min_{3\le v\le \lfloor v_0(y)\rfloor+3}
-\{
-2-2F_v(
-y\sqrt{\frac{v}{v-2}}
-)
-\}
-$$
 
 # Numerical Notes
 
