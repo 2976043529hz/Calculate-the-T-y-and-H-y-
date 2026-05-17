@@ -23,22 +23,22 @@ The implementation follows the theorem structure directly and supports:
 
 The code evaluates expressions of the form
 
-\[
+$$
 2F_v\left(y\sqrt{\frac{v}{v-2}}\right)-1
-\]
+$$
 
 and
 
-\[
+$$
 2-2F_v\left(y\sqrt{\frac{v}{v-2}}\right)
-\]
+$$
 
 where:
 
-- \(F_v(x)\) is the CDF of the Student's \(t\)-distribution.
-- \(\Phi(x)\) is the standard normal CDF.
+- $\(F_v(x)\)$ is the CDF of the Student's $\(t\)$-distribution.
+- $\(\Phi(x)\)$ is the standard normal CDF.
 
-The program computes finite minimizations over admissible ranges determined by the function \(v_0(y)\).
+The program computes finite minimizations over admissible ranges determined by the function $\(v_0(y)\)$.
 
 ---
 
