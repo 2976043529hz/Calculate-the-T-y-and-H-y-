@@ -4,17 +4,17 @@
 
 This project provides a Python implementation for computing the functions:
 
-- \(T(y)\)
-- \(H(y)\)
+- $\(T(y)\)$
+- $\(H(y)\)$
 
-which are defined through minimization problems involving the cumulative distribution function (CDF) of the Student's \(t\)-distribution and the standard normal distribution.
+which are defined through minimization problems involving the cumulative distribution function (CDF) of the Student's $\(t\)$-distribution and the standard normal distribution.
 
 The implementation follows the theorem structure directly and supports:
 
-- Numerical evaluation of \(T(y)\) and \(H(y)\)
-- Automatic case distinction depending on \(y\)
+- Numerical evaluation of $\(T(y)\)$ and $\(H(y)\)$
+- Automatic case distinction depending on $\(y\)$
 - Detailed diagnostic information
-- Identification of the minimizing degree of freedom \(v\)
+- Identification of the minimizing degree of freedom $\(v\)$
 - Stable computation using SciPy
 
 ---
@@ -695,7 +695,7 @@ print_results(t_info, h_info)
 
 ## Definition of \(T(y)\)
 
-\[
+$$
 T(y)=
 \begin{cases}
 2\Phi(y)-1,
@@ -707,11 +707,11 @@ T(y)=
 F_T(y),
 & y>\sqrt3
 \end{cases}
-\]
+$$
 
 where
 
-\[
+$$
 F_T(y)=
 \min_{3\le v\le \lfloor v_0(y)\rfloor+3}
 \left\{
@@ -719,13 +719,13 @@ F_T(y)=
 y\sqrt{\frac{v}{v-2}}
 \right)-1
 \right\}
-\]
+$$
 
 ---
 
 ## Definition of \(H(y)\)
 
-\[
+$$
 H(y)=
 \begin{cases}
 \min_{v=3,4}
@@ -742,11 +742,11 @@ F_H(y),
 \min\{F_H(y),\,2-2\Phi(y)\},
 & y>\sqrt3
 \end{cases}
-\]
+$$
 
 where
 
-\[
+$$
 F_H(y)=
 \min_{3\le v\le \lfloor v_0(y)\rfloor+3}
 \left\{
@@ -754,25 +754,25 @@ F_H(y)=
 y\sqrt{\frac{v}{v-2}}
 \right)
 \right\}
-\]
+$$
 
 ---
 
 # Numerical Notes
 
-- Student's \(t\)-CDF is computed using:
+- Student's $\(t\)$-CDF is computed using:
 
 ```python
 scipy.special.stdtr
 ```
 
-- For very large \(v\), the implementation uses the normal approximation:
+- For very large $\(v\)$, the implementation uses the normal approximation:
 
-\[
+$$
 F_v(x)\approx \Phi(x)
-\]
+$$
 
-- Numerical safeguards are included for \(v \le 2\).
+- Numerical safeguards are included for$\(v \le 2\)$.
 
 ---
 
@@ -782,7 +782,7 @@ Possible extensions include:
 
 - NumPy vectorization
 - Parallel minimization
-- Plotting \(T(y)\) and \(H(y)\)
+- Plotting $\(T(y)\)$ and $\(H(y)\)$
 - Higher precision arithmetic
 - Jupyter notebook demos
 - LaTeX export support
