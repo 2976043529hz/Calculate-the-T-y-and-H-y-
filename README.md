@@ -4,17 +4,17 @@
 
 This project provides a Python implementation for computing the functions:
 
-- $\(T(y)\)$
-- $\(H(y)\)$
+- $T(y)$
+- $H(y)$
 
-which are defined through minimization problems involving the cumulative distribution function (CDF) of the Student's $\(t\)$-distribution and the standard normal distribution.
+which are defined through minimization problems involving the cumulative distribution function (CDF) of the Student's $t$-distribution and the standard normal distribution.
 
 The implementation follows the theorem structure directly and supports:
 
-- Numerical evaluation of $\(T(y)\)$ and $\(H(y)\)$
-- Automatic case distinction depending on $\(y\)$
+- Numerical evaluation of $T(y)$ and $H(y)$
+- Automatic case distinction depending on $y$
 - Detailed diagnostic information
-- Identification of the minimizing degree of freedom $\(v\)$
+- Identification of the minimizing degree of freedom $v$
 - Stable computation using SciPy
 
 ---
@@ -35,10 +35,10 @@ $$
 
 where:
 
-- $\(F_v(x)\)$ is the CDF of the Student's $\(t\)$-distribution.
-- $\(\Phi(x)\)$ is the standard normal CDF.
+- $F_v(x)$ is the CDF of the Student's $t$-distribution.
+- $\Phi(x)$ is the standard normal CDF.
 
-The program computes finite minimizations over admissible ranges determined by the function $\(v_0(y)\)$.
+The program computes finite minimizations over admissible ranges determined by the function $v_0(y)$.
 
 ---
 
@@ -288,320 +288,6 @@ def H(y):
         return f_h_val
 
 
-def T_with_info(y):
-    """
-    Detailed information for T(y)
-    """
-
-    if y <= 0:
-        raise ValueError("y must be greater than 0")
-
-    v0 = v_0(y)
-
-    v_max_floor = int(math.floor(v0)) + 3
-
-    phi_term = 2 * Phi(y) - 1
-
-    result = {
-        'y': y,
-        'v0': v0,
-        'v_max': v_max_floor,
-        'finite_terms': [],
-        'phi_term': phi_term,
-        'min_value': None,
-        'min_v': None,
-        'case': None
-    }
-
-    if y <= 1:
-
-        result['min_value'] = phi_term
-        result['min_v'] = 'infinity'
-        result['case'] = '0 < y <= 1'
-
-        return result
-
-    for v in range(3, v_max_floor + 1):
-
-        try:
-            val = compute_term(v, y, 'T')
-
-            result['finite_terms'].append((v, val))
-
-        except:
-            continue
-
-    if result['finite_terms']:
-
-        result['finite_terms'].sort(
-            key=lambda x: x[1]
-        )
-
-        min_finite_v, min_finite_val = (
-            result['finite_terms'][0]
-        )
-
-    else:
-
-        min_finite_v = float('inf')
-        min_finite_val = None
-
-    if 1 < y < math.sqrt(3):
-
-        result['case'] = '1 < y < sqrt(3)'
-
-        if min_finite_val < phi_term:
-
-            result['min_value'] = min_finite_val
-            result['min_v'] = min_finite_v
-
-        else:
-
-            result['min_value'] = phi_term
-            result['min_v'] = 'infinity'
-
-    elif y > math.sqrt(3):
-
-        result['case'] = 'y > sqrt(3)'
-
-        result['min_value'] = min_finite_val
-        result['min_v'] = min_finite_v
-
-    else:
-
-        result['case'] = 'y = sqrt(3)'
-
-        phi_at_sqrt3 = (
-            2 * Phi(math.sqrt(3)) - 1
-        )
-
-        result['min_value'] = min(
-            min_finite_val,
-            phi_at_sqrt3
-        )
-
-        if min_finite_val < phi_at_sqrt3:
-
-            result['min_v'] = min_finite_v
-
-        else:
-
-            result['min_v'] = 'infinity'
-
-    return result
-
-
-def H_with_info(y):
-    """
-    Detailed information for H(y)
-    """
-
-    if y <= 0:
-        raise ValueError("y must be greater than 0")
-
-    v0 = v_0(y)
-
-    v_max_floor = int(math.floor(v0)) + 3
-
-    phi_term = 2 - 2 * Phi(y)
-
-    result = {
-        'y': y,
-        'v0': v0,
-        'v_max': v_max_floor,
-        'finite_terms': [],
-        'phi_term': phi_term,
-        'min_value': None,
-        'min_v': None,
-        'case': None
-    }
-
-    if y <= 1:
-
-        result['case'] = '0 < y <= 1'
-
-        min_val = float('inf')
-        min_v = None
-
-        for v in [3, 4]:
-
-            try:
-                val = compute_term(v, y, 'H')
-
-                result['finite_terms'].append(
-                    (v, val)
-                )
-
-                if val < min_val:
-                    min_val = val
-                    min_v = v
-
-            except:
-                continue
-
-        result['min_value'] = min_val
-        result['min_v'] = min_v
-
-        return result
-
-    for v in range(3, v_max_floor + 1):
-
-        try:
-            val = compute_term(v, y, 'H')
-
-            result['finite_terms'].append(
-                (v, val)
-            )
-
-        except:
-            continue
-
-    if result['finite_terms']:
-
-        result['finite_terms'].sort(
-            key=lambda x: x[1]
-        )
-
-        min_finite_v, min_finite_val = (
-            result['finite_terms'][0]
-        )
-
-    else:
-
-        min_finite_v = float('inf')
-        min_finite_val = None
-
-    if 1 < y < math.sqrt(3):
-
-        result['case'] = '1 < y < sqrt(3)'
-
-        result['min_value'] = min_finite_val
-        result['min_v'] = min_finite_v
-
-    elif y > math.sqrt(3):
-
-        result['case'] = 'y > sqrt(3)'
-
-        if min_finite_val < phi_term:
-
-            result['min_value'] = min_finite_val
-            result['min_v'] = min_finite_v
-
-        else:
-
-            result['min_value'] = phi_term
-            result['min_v'] = 'infinity'
-
-    else:
-
-        result['case'] = 'y = sqrt(3)'
-
-        result['min_value'] = min_finite_val
-        result['min_v'] = min_finite_v
-
-    return result
-
-
-def format_number(x):
-    """
-    Format number
-    """
-
-    if (
-        x == float('inf')
-        or x == -float('inf')
-        or math.isnan(x)
-    ):
-        return str(x)
-
-    return f"{x:.15g}"
-
-
-def print_results(t_info, h_info):
-    """
-    Pretty formatted printing
-    """
-
-    y = t_info['y']
-
-    print(f"y = {y}")
-
-    if y < 0:
-
-        error
-
-    elif 0 < y <= 1:
-
-        print(
-            "This case belongs to y in (0,1]"
-        )
-
-    else:
-
-        print(
-            f"v0 = {t_info['v0']:.2f}, "
-            f"v_max = {t_info['v_max']}"
-        )
-
-    print()
-
-    print(f"T({y}):")
-
-    print(f"  Case: {t_info['case']}")
-
-    if t_info['finite_terms']:
-
-        print("  Top 5 finite terms:")
-
-        for v, val in t_info['finite_terms'][:5]:
-
-            print(
-                f"    v={v}: "
-                f"{format_number(val)}"
-            )
-
-    print(
-        f"  Phi term: "
-        f"{format_number(t_info['phi_term'])}"
-    )
-
-    print(
-        f"  Result: "
-        f"T = {format_number(t_info['min_value'])} "
-        f"at v = {t_info['min_v']}"
-    )
-
-    print()
-
-    print(f"H({y}):")
-
-    print(f"  Case: {h_info['case']}")
-
-    if h_info['finite_terms']:
-
-        print("  Top 5 finite terms:")
-
-        for v, val in h_info['finite_terms'][:5]:
-
-            print(
-                f"    v={v}: "
-                f"{format_number(val)}"
-            )
-
-    print(
-        f"  Phi term: "
-        f"{format_number(h_info['phi_term'])}"
-    )
-
-    print(
-        f"  Result: "
-        f"H = {format_number(h_info['min_value'])} "
-        f"at v = {h_info['min_v']}"
-    )
-
-    print("\n" + "=" * 60 + "\n")
-
-
 if __name__ == "__main__":
 
     test_values = [
@@ -615,14 +301,10 @@ if __name__ == "__main__":
 
         try:
 
-            t_info = T_with_info(y)
-
-            h_info = H_with_info(y)
-
-            print_results(
-                t_info,
-                h_info
-            )
+            print(f"y = {y}")
+            print(f"T(y) = {T(y)}")
+            print(f"H(y) = {H(y)}")
+            print("-" * 50)
 
         except Exception as e:
 
@@ -660,7 +342,6 @@ python "Calculate the T(y) and H(y).py"
 # Example
 
 ```python
-from math import sqrt
 from your_file_name import T, H
 
 y = 2.0
@@ -671,29 +352,9 @@ print(H(y))
 
 ---
 
-# Example Detailed Output
-
-```python
-from your_file_name import (
-    T_with_info,
-    H_with_info,
-    print_results
-)
-
-y = 2.0
-
-t_info = T_with_info(y)
-
-h_info = H_with_info(y)
-
-print_results(t_info, h_info)
-```
-
----
-
 # Mathematical Definitions
 
-## Definition of \(T(y)\)
+## Definition of $T(y)$
 
 $$
 T(y)=
@@ -723,7 +384,7 @@ $$
 
 ---
 
-## Definition of \(H(y)\)
+## Definition of $H(y)$
 
 $$
 H(y)=
@@ -760,19 +421,19 @@ $$
 
 # Numerical Notes
 
-- Student's $\(t\)$-CDF is computed using:
+- Student's $t$-CDF is computed using:
 
 ```python
 scipy.special.stdtr
 ```
 
-- For very large $\(v\)$, the implementation uses the normal approximation:
+- For very large $v$, the implementation uses the normal approximation:
 
 $$
 F_v(x)\approx \Phi(x)
 $$
 
-- Numerical safeguards are included for$\(v \le 2\)$.
+- Numerical safeguards are included for $v \le 2$.
 
 ---
 
@@ -782,7 +443,7 @@ Possible extensions include:
 
 - NumPy vectorization
 - Parallel minimization
-- Plotting $\(T(y)\)$ and $\(H(y)\)$
+- Plotting $T(y)$ and $H(y)$
 - Higher precision arithmetic
 - Jupyter notebook demos
 - LaTeX export support
@@ -792,5 +453,3 @@ Possible extensions include:
 # License
 
 Academic and research use only.
-
-            print(f"Error at y={y}: {e}")
