@@ -104,11 +104,11 @@ where
 $$
 F_T(y)=
 \min_{3\le v\le \lfloor v_0(y)\rfloor+3}
-\left\{
-2F_v\left(
+\{
+2F_v(
 y\sqrt{\frac{v}{v-2}}
-\right)-1
-\right\}
+)-1
+\}
 $$
 
 ---
@@ -119,11 +119,11 @@ $$
 H(y)=
 \begin{cases}
 \min_{v=3,4}
-\left\{
-2-2F_v\left(
+\{
+2-2F_v(
 y\sqrt{\frac{v}{v-2}}
-\right)
-\right\},
+)
+\},
 & 0<y\le1
 \\
 F_H(y),
@@ -139,11 +139,11 @@ where
 $$
 F_H(y)=
 \min_{3\le v\le \lfloor v_0(y)\rfloor+3}
-\left\{
-2-2F_v\left(
+\{
+2-2F_v(
 y\sqrt{\frac{v}{v-2}}
-\right)
-\right\}
+)
+\}
 $$
 
 ---
