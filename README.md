@@ -71,12 +71,11 @@ python "Calculate the T(y) and H(y).py"
 # Example
 
 ```python
-from your_file_name import T, H
+from your_file_name import T_with_info, H_with_info,print_results
 
 y = 2.0
 
-print(T(y))
-print(H(y))
+print_results(T_with_info(y),H_with_info(y))
 ```
 
 ---
